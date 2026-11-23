@@ -1,6 +1,6 @@
 import React from 'react';
 import { ArrowRightIcon } from './Icons';
-import heroBg from '../assets/hero-bg.jpg.png.jpg';
+import heroBg from '../assets/hero.jpg';
 import heroMobile from '../assets/heromobile.png';
 
 export default function Hero() {

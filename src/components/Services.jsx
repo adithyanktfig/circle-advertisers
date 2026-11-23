@@ -47,7 +47,7 @@ const services = [
 
 export default function Services() {
   return (
-    <section id="services" className="py-20 lg:py-[120px] bg-white">
+    <section id="services" className="pt-20 lg:pt-[120px] pb-10 lg:pb-[60px] bg-white">
       <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-[100px] flex flex-col gap-16 lg:gap-[80px] items-center">
         {/* Section Intro */}
         <div className="flex flex-col gap-6 lg:gap-[30px] items-center text-center max-w-[663px]">
@@ -67,7 +67,7 @@ export default function Services() {
         </div>
 
         {/* 6 Services Grid (2 Columns on Desktop, 1 Column on Mobile) */}
-        <div className="w-full flex flex-col gap-12 lg:gap-[50px] items-center">
+        <div className="w-full flex flex-col gap-10 lg:gap-[40px] items-center">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-x-[20px] lg:gap-y-[50px] w-full">
             {services.map((service) => (
               <article
@@ -99,7 +99,7 @@ export default function Services() {
           </div>
 
           {/* Section CTA Button */}
-          <div className="pt-4">
+          <div>
             <a
               href="#contact"
               className="inline-flex items-center justify-center bg-black hover:bg-neutral-800 text-white font-inter-tight font-medium text-[16px] px-[20px] py-[15px] rounded-button transition-transform hover:-translate-y-0.5 active:translate-y-0 shadow-sm"
