@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
+import Preloader from './components/Preloader';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Services from './components/Services';
@@ -10,37 +11,65 @@ import Footer from './components/Footer';
 import WhatsAppButton from './components/WhatsAppButton';
 
 export default function App() {
+  const [heroLoaded, setHeroLoaded] = useState(false);
+  const [introActive, setIntroActive] = useState(
+    () => !sessionStorage.getItem('circle_intro_seen')
+  );
+
+  const handleHeroLoaded = useCallback(() => {
+    setHeroLoaded(true);
+  }, []);
+
+  const handlePreloaderComplete = useCallback(() => {
+    setIntroActive(false);
+  }, []);
+
   return (
-    <div className="min-h-screen bg-white text-black selection:bg-neutral-200 selection:text-black font-inter">
-      {/* Sticky Header & Navbar */}
-      <Navbar />
+    <>
+      {introActive && (
+        <Preloader
+          isHeroLoaded={heroLoaded}
+          onComplete={handlePreloaderComplete}
+        />
+      )}
 
-      {/* Main Content Sections */}
-      <main>
-        {/* Hero Section */}
-        <Hero />
+      <div
+        style={{
+          opacity: introActive ? 0 : 1,
+          transition: 'opacity 600ms ease-in-out',
+        }}
+        className="min-h-screen bg-white text-black selection:bg-neutral-200 selection:text-black font-inter"
+      >
+        {/* Sticky Header & Navbar */}
+        <Navbar />
 
-        {/* What We Do / Services Section */}
-        <Services />
+        {/* Main Content Sections */}
+        <main>
+          {/* Hero Section */}
+          <Hero onLoaded={handleHeroLoaded} />
 
-        {/* Why CIRCLE / Core Features */}
-        <WhyCircle />
+          {/* What We Do / Services Section */}
+          <Services />
 
-        {/* About Us / Social Proof Metrics */}
-        <AboutStats />
+          {/* Why CIRCLE / Core Features */}
+          <WhyCircle />
 
-        {/* Meet the Founder Section */}
-        <Founder />
+          {/* About Us / Social Proof Metrics */}
+          <AboutStats />
 
-        {/* Lead Capture / Contact Section */}
-        <ContactForm />
-      </main>
+          {/* Meet the Founder Section */}
+          <Founder />
 
-      {/* Footer */}
-      <Footer />
+          {/* Lead Capture / Contact Section */}
+          <ContactForm />
+        </main>
 
-      {/* Floating WhatsApp Action Button */}
-      <WhatsAppButton phoneNumber="919074443624" />
-    </div>
+        {/* Footer */}
+        <Footer />
+
+        {/* Floating WhatsApp Action Button */}
+        <WhatsAppButton phoneNumber="919074443624" />
+      </div>
+    </>
   );
 }

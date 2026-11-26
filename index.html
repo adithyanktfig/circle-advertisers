@@ -6,6 +6,14 @@
   <title>CIRCLE Advertisers | Outdoor Advertising, Banners & Displays in Kozhikode</title>
   <meta name="description" content="CIRCLE Advertisers in Kozhikode, Kerala. 30+ years of outdoor advertising, billboard solutions, flex printing, event branding, and promotional displays.">
 
+  <!-- Preload Hero Background Image Immediately (Highest Priority) -->
+  <link
+    rel="preload"
+    as="image"
+    href="https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=2000&q=80"
+    fetchpriority="high"
+  />
+
   <!-- Google Fonts: Inter Tight, Inter, Antic Didone -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -44,10 +52,15 @@
             'float-bounce': {
               '0%, 100%': { transform: 'translateY(0)' },
               '50%': { transform: 'translateY(-6px)' },
+            },
+            'cinematic-in': {
+              '0%': { opacity: '0', transform: 'translateY(14px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
             }
           },
           animation: {
             'bounce-subtle': 'float-bounce 2s ease-in-out infinite',
+            'cinematic': 'cinematic-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) both',
           }
         }
       }
@@ -69,9 +82,64 @@
     ::-webkit-scrollbar-thumb:hover {
       background: #a3a3a3;
     }
+
+    /* Preloader Transitions */
+    #circle-preloader {
+      background-color: #FAFAFA;
+      opacity: 1;
+      transition: background-color 1200ms ease-in-out, opacity 500ms ease-out;
+    }
+    #circle-preloader.phase-darken {
+      background-color: #000000;
+    }
+    #circle-preloader.phase-exit {
+      background-color: #000000;
+      opacity: 0;
+      pointer-events: none;
+    }
+    #circle-preloader-wordmark {
+      color: #111111;
+      opacity: 1;
+      transform: scale(1);
+      transition: color 500ms ease, opacity 500ms ease, transform 500ms ease;
+    }
+    #circle-preloader.phase-darken #circle-preloader-wordmark {
+      color: rgba(17, 17, 17, 0.8);
+    }
+    #circle-preloader.phase-exit #circle-preloader-wordmark {
+      color: rgba(255, 255, 255, 0);
+      opacity: 0;
+      transform: scale(0.98);
+    }
+  </style>
+
+  <!-- Immediately hide preloader on repeat visits within the same session -->
+  <script>
+    if (sessionStorage.getItem('circle_intro_seen')) {
+      document.documentElement.classList.add('intro-seen');
+    }
+  </script>
+  <style>
+    html.intro-seen #circle-preloader {
+      display: none !important;
+    }
   </style>
 </head>
 <body class="bg-white text-black font-inter antialiased selection:bg-neutral-200 selection:text-black">
+
+  <!-- 0. 2.0-SECOND EDITORIAL PRELOADER -->
+  <div
+    id="circle-preloader"
+    aria-hidden="true"
+    class="fixed inset-0 z-[100] flex items-center justify-center"
+  >
+    <span
+      id="circle-preloader-wordmark"
+      class="font-inter-tight text-sm sm:text-base font-medium tracking-[0.22em] uppercase select-none"
+    >
+      CIRCLE
+    </span>
+  </div>
 
   <!-- 1. HEADER & NAVBAR -->
   <header id="main-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white/95 py-5 border-b border-transparent">
@@ -140,11 +208,15 @@
   <main>
     <!-- 2. HERO SECTION -->
     <section id="hero" class="relative w-full min-h-[850px] lg:min-h-[1024px] overflow-hidden bg-neutral-100 flex items-center pt-24 pb-12">
-      <!-- Background Cityscape Imagery -->
+      <!-- Background Cityscape Imagery (Eager + High Fetch Priority) -->
       <div class="absolute inset-0 z-0">
         <img
+          id="hero-bg-img"
           src="https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=2000&q=80"
           alt="Kozhikode Coastal Cityscape and Highway Infrastructure"
+          loading="eager"
+          fetchpriority="high"
+          decoding="sync"
           class="w-full h-full object-cover object-center brightness-[0.92]"
         />
         <!-- Legibility Gradient Overlay -->
@@ -165,15 +237,24 @@
         <!-- Hero Headline, Subhead & CTA -->
         <div class="lg:col-span-6 max-w-[500px]">
           <div class="flex flex-col gap-4">
-            <h1 class="font-inter-tight font-medium text-[38px] sm:text-[44px] lg:text-[48px] tracking-[-1.92px] leading-[1.05] text-brand-black">
+            <h1
+              data-hero-delay="0.2"
+              class="hero-animate font-inter-tight font-medium text-[38px] sm:text-[44px] lg:text-[48px] tracking-[-1.92px] leading-[1.05] text-brand-black animate-cinematic"
+            >
               Make Your Brand Seen. Make Your Event Matter.
             </h1>
-            <p class="font-inter font-medium text-[16px] sm:text-[18px] leading-[1.25] text-body-dark pt-2">
+            <p
+              data-hero-delay="0.5"
+              class="hero-animate font-inter font-medium text-[16px] sm:text-[18px] leading-[1.25] text-body-dark pt-2 animate-cinematic"
+            >
               We help businesses stand out and events make an impression with eye-catching banners, outdoor advertising and creative displays.
             </p>
           </div>
 
-          <div class="pt-6">
+          <div
+            data-hero-delay="0.8"
+            class="hero-animate pt-6 animate-cinematic"
+          >
             <a href="#contact" class="inline-flex items-center justify-center gap-[10px] bg-black hover:bg-neutral-800 text-white font-inter-tight font-medium text-[16px] py-[15px] px-[20px] rounded-button w-full sm:w-[279px] transition-all transform hover:-translate-y-0.5 shadow-md active:translate-y-0">
               <span>Discuss Your Project</span>
               <svg class="w-[18px] h-[12px]" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -184,7 +265,10 @@
         </div>
 
         <!-- Hero Billboard Mockup Display -->
-        <div class="lg:col-span-6 flex justify-center lg:justify-end">
+        <div
+          data-hero-delay="0.6"
+          class="hero-animate lg:col-span-6 flex justify-center lg:justify-end animate-cinematic"
+        >
           <div class="relative w-full max-w-[480px] lg:max-w-[520px] group">
             <div class="bg-neutral-900 text-white rounded-2xl p-6 shadow-2xl border border-neutral-800 relative overflow-hidden transform lg:rotate-1 hover:rotate-0 transition-transform duration-500">
               <div class="flex items-center justify-between pb-4 border-b border-neutral-800 text-[11px] font-inter uppercase tracking-widest text-neutral-400">
@@ -806,7 +890,7 @@
     </div>
   </footer>
 
-  <!-- 9. FLOATING WHATSAPP CHAT BUTTON (Requirement 4) -->
+  <!-- 9. FLOATING WHATSAPP CHAT BUTTON -->
   <div class="fixed bottom-6 right-6 z-50 flex items-center gap-3">
     <!-- Hover Tooltip -->
     <div id="whatsapp-tooltip" class="hidden sm:flex items-center bg-neutral-900 text-white text-xs font-inter font-medium py-2 px-3.5 rounded-lg shadow-xl opacity-0 translate-x-2 transition-all duration-300 pointer-events-none">
@@ -828,8 +912,63 @@
     </a>
   </div>
 
-  <!-- JavaScript Interactivity -->
+  <!-- JavaScript Interactivity & 2.0s Preloader Controller -->
   <script>
+    // 0. 2.0-Second Preloader + Hero Image Load Synchronization
+    (function () {
+      const preloader = document.getElementById('circle-preloader');
+      const heroImg = document.getElementById('hero-bg-img');
+      const heroAnimElements = document.querySelectorAll('.hero-animate');
+      const alreadySeen = sessionStorage.getItem('circle_intro_seen') === 'true';
+
+      // Apply entrance animation delays (offset by 1.6s if preloader is playing)
+      const delayOffset = alreadySeen ? 0 : 1.6;
+      heroAnimElements.forEach((el) => {
+        const baseDelay = parseFloat(el.getAttribute('data-hero-delay') || '0');
+        el.style.animationDelay = `${(baseDelay + delayOffset).toFixed(1)}s`;
+      });
+
+      if (alreadySeen || !preloader) {
+        if (preloader) preloader.remove();
+        return;
+      }
+
+      let minTimeElapsed = false;
+      let heroImageReady = heroImg ? heroImg.complete : true;
+
+      function tryDismissPreloader() {
+        if (minTimeElapsed && heroImageReady) {
+          preloader.classList.add('phase-exit');
+          setTimeout(() => {
+            sessionStorage.setItem('circle_intro_seen', 'true');
+            preloader.remove();
+          }, 500); // Completes at 2.0s total
+        }
+      }
+
+      if (heroImg && !heroImageReady) {
+        heroImg.addEventListener('load', () => {
+          heroImageReady = true;
+          tryDismissPreloader();
+        });
+        heroImg.addEventListener('error', () => {
+          heroImageReady = true;
+          tryDismissPreloader();
+        });
+      }
+
+      // 0.3s -> Begin smooth off-white (#FAFAFA) to obsidian black (#000000) transition
+      setTimeout(() => {
+        preloader.classList.add('phase-darken');
+      }, 300);
+
+      // 1.5s -> Ready to lift once hero image is loaded
+      setTimeout(() => {
+        minTimeElapsed = true;
+        tryDismissPreloader();
+      }, 1500);
+    })();
+
     // Header Scroll State & Backdrop Blur
     const header = document.getElementById('main-header');
     window.addEventListener('scroll', () => {
